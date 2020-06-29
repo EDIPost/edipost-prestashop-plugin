@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<module>
+	<name>edipost</name>
+	<displayName><![CDATA[Edipost]]></displayName>
+	<version><![CDATA[1.0.0]]></version>
+	<description><![CDATA[Edipost IntegrationUser able to print shipping labels from an order)]]></description>
+	<author><![CDATA[Edipost]]></author>
+	<tab><![CDATA[others]]></tab>
+	<is_configurable>1</is_configurable>
+	<need_instance>1</need_instance>
+</module>
