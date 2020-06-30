@@ -1,14 +1,37 @@
 <?php
+/**
+ * 2007-2020 PrestaShop
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@prestashop.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
+ * versions in the future. If you wish to customize PrestaShop for your
+ * needs please refer to http://www.prestashop.com for more information.
+ *
+ * @author    PrestaShop SA <contact@prestashop.com>
+ * @copyright 2007-2020 PrestaShop SA
+ * @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ *  International Registered Trademark & Property of PrestaShop SA
+ */
 
-require_once(_PS_MODULE_DIR_.'/edipost/lib/php-rest-client/init.php');
+require_once(_PS_MODULE_DIR_ . '/edipost/lib/php-rest-client/init.php');
 
 use PrestaShop\PrestaShop\Adapter\Module\Module;
 
-class AdminEdipostHelper {
-    private $_apiData;
-    private $_api;
-
-    static function getApiConfig(){
+class AdminEdipostHelper
+{
+    public static function getApiConfig()
+    {
         $module = new Module();
         $config = array(
             'EDIPOST_PRODUCTION_MODE' => Configuration::get('EDIPOST_PRODUCTION_MODE', true),
@@ -18,13 +41,13 @@ class AdminEdipostHelper {
             'EDIPOST_API_ENDPOINT' => Configuration::get('EDIPOST_PRODUCTION_MODE', null) ? 'https://api.pbshipment.com' : 'https://api.pbshipment.com',
             'EDIPOST_LAST_SHIPPING_METHOD' => Configuration::get('EDIPOST_LAST_SHIPPING_METHOD', 0),
         );
-        if(!$config['EDIPOST_API_KEY']){
+        if (!$config['EDIPOST_API_KEY']) {
             throw new Exception($module->l('API key cannot be empty. Please contact support.'));
         }
         return $config;
     }
 
-    static function loadCustomerAddress($order)
+    public static function loadCustomerAddress($order)
     {
         $address = new Address($order->id_address_delivery);
         $customer = new Customer($order->id_customer);
@@ -43,11 +66,11 @@ class AdminEdipostHelper {
             'fax' => '',
             'id_lang' => $customer->id_lang,
             'country_id' => $counnry_iso,
-            'company' => $address->company ? $address->company : $address->firstname.' '. $address->lastname
+            'company' => $address->company ? $address->company : $address->firstname . ' ' . $address->lastname
         );
     }
 
-    static function getShippingAdress($order)
+    public static function getShippingAdress($order)
     {
 
         $customerAddr = self::loadCustomerAddress($order);
@@ -60,5 +83,4 @@ class AdminEdipostHelper {
             'fromZipCode' => Configuration::get('PS_SHOP_CODE'),
         ];
     }
-
 }

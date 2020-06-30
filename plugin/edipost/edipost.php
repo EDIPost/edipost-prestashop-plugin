@@ -28,16 +28,13 @@ if (!defined('_PS_VERSION_')) {
     exit;
 }
 
-require_once(_PS_MODULE_DIR_.'/edipost/helper.php');
-require_once(_PS_MODULE_DIR_.'/edipost/lib/php-rest-client/EdipostService.php');
+require_once(_PS_MODULE_DIR_ . '/edipost/helper.php');
+require_once(_PS_MODULE_DIR_ . '/edipost/lib/php-rest-client/EdipostService.php');
 
 use EdipostService\EdipostService;
 
-
 class Edipost extends Module
 {
-    protected $config_form = false;
-
     public function __construct()
     {
         $this->name = 'edipost';
@@ -54,7 +51,8 @@ class Edipost extends Module
         parent::__construct();
 
         $this->displayName = $this->l('Edipost');
-        $this->description = $this->l('Create and print shipping labels directly from an order using the Edipost shipping solution.');
+        $this->description = $this
+            ->l('Create and print shipping labels directly from an order using the Edipost shipping solution.');
 
         $this->ps_versions_compliancy = array('min' => '1.6', 'max' => _PS_VERSION_);
         $this->controllers = array('ajax');
@@ -76,9 +74,7 @@ class Edipost extends Module
             $this->registerHook('header') &&
             $this->registerHook('backOfficeHeader') &&
             $this->registerHook('displayAdminOrderRight');
-
     }
-
 
     public function uninstall()
     {
@@ -214,7 +210,7 @@ class Edipost extends Module
         $form_values = $this->getConfigFormValues();
 
         foreach (array_keys($form_values) as $key) {
-            if($key == 'EDIPOST_PASSWORD' && Configuration::get('EDIPOST_PASSWORD', '') == Tools::getValue($key)){
+            if ($key == 'EDIPOST_PASSWORD' && Configuration::get('EDIPOST_PASSWORD', '') == Tools::getValue($key)) {
                 continue;
             }
             Configuration::updateValue($key, Tools::getValue($key));
@@ -226,9 +222,9 @@ class Edipost extends Module
      */
     public function hookBackOfficeHeader()
     {
-            $this->context->controller->addJquery();
-            $this->context->controller->addJS($this->_path . 'views/js/back.js');
-            $this->context->controller->addCSS($this->_path . 'views/css/back.css');
+        $this->context->controller->addJquery();
+        $this->context->controller->addJS($this->_path . 'views/js/back.js');
+        $this->context->controller->addCSS($this->_path . 'views/css/back.css');
 
         Media::addJsDef(array(
             'psr_controller_edipost_url' => $this->context->link->getAdminLink('AdminEdipost')
@@ -245,7 +241,7 @@ class Edipost extends Module
         $error_text = '';
         $shipping_methods = $this->getShippingMethods($order);
 
-        if($shipping_methods['error']){
+        if ($shipping_methods['error']) {
             $error_text = $shipping_methods['error'];
         }
 
@@ -259,9 +255,7 @@ class Edipost extends Module
             'config' => AdminEdipostHelper::getApiConfig(),
         ]);
 
-
         return $this->context->smarty->fetch($this->local_path . 'views/templates/admin/shipment.tpl');
-
     }
 
     /**
@@ -280,11 +274,11 @@ class Edipost extends Module
                 'name' => $this->l('-- Select an option --'),
                 'status' => $this->l('Available'),
                 'service' => ''
-                ]
+            ]
         ];
 
         foreach ($order->getProducts() as $product) {
-            if (!($weight = floatval($product['weight']))) {
+            if (!($weight = (float)$product['weight'])) {
                 $weight = 1;
             }
             $items[] = [
@@ -298,9 +292,14 @@ class Edipost extends Module
         try {
             $_apiData = AdminEdipostHelper::getApiConfig();
 
-            $_api = new EdipostService( $_apiData['EDIPOST_API_KEY'], $_apiData['EDIPOST_API_ENDPOINT'] );
-            $products = $_api->getAvailableProducts($shippingData['fromZipCode'], $shippingData['fromCountryCode'],
-                $shippingData['toZipCode'], $shippingData['toCountryCode'], $items);
+            $_api = new EdipostService($_apiData['EDIPOST_API_KEY'], $_apiData['EDIPOST_API_ENDPOINT']);
+            $products = $_api->getAvailableProducts(
+                $shippingData['fromZipCode'],
+                $shippingData['fromCountryCode'],
+                $shippingData['toZipCode'],
+                $shippingData['toCountryCode'],
+                $items
+            );
             foreach ($products as $product) {
                 $services = [];
                 foreach ($product->getServices() as $service) {
@@ -321,7 +320,7 @@ class Edipost extends Module
             $error = $exception->getMessage();
         }
 
-        if(count($options) == 1){
+        if (count($options) == 1) {
             $error = $this->l('There are no available shipping methods.') . '<br>' . $error;
         }
 
@@ -331,3 +330,4 @@ class Edipost extends Module
         );
     }
 }
+

@@ -1,16 +1,32 @@
 <?php
+/**
+ * 2007-2020 PrestaShop
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@prestashop.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
+ * versions in the future. If you wish to customize PrestaShop for your
+ * needs please refer to http://www.prestashop.com for more information.
+ *
+ * @author    PrestaShop SA <contact@prestashop.com>
+ * @copyright 2007-2020 PrestaShop SA
+ * @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ *  International Registered Trademark & Property of PrestaShop SA
+ */
 
-require_once(_PS_MODULE_DIR_.'/edipost/edipost.php');
-require_once(_PS_MODULE_DIR_.'/edipost/helper.php');
-require_once(_PS_MODULE_DIR_.'/edipost/lib/php-rest-client/EdipostService.php');
-
-//use Order;
-//use Configuration;
-//use Address;
-//use Customer;
-//use OrderCarrier;
-
-//use AdminEdipostHelper;
+require_once(_PS_MODULE_DIR_ . '/edipost/edipost.php');
+require_once(_PS_MODULE_DIR_ . '/edipost/helper.php');
+require_once(_PS_MODULE_DIR_ . '/edipost/lib/php-rest-client/EdipostService.php');
 
 use EdipostService\EdipostService;
 use EdipostService\Client\Builder\ConsigneeBuilder;
@@ -19,17 +35,16 @@ use EdipostService\Client\Item;
 
 class AdminEdipostController extends ModuleAdminController
 {
-    private $_apiData;
-    private $_api;
-    private $_path;
+    private $apiData;
+    private $api;
+    private $path;
 
     public function __construct()
     {
-        $this->_apiData = AdminEdipostHelper::getApiConfig();
-        $this->_apiData['web_app_url'] = 'https://no.pbshipment.com';
-
-        $this->_api = new EdipostService( $this->_apiData['EDIPOST_API_KEY'], $this->_apiData['EDIPOST_API_ENDPOINT'] );
-        $this->_path = _PS_IMG_DIR_;
+        $this->apiData = AdminEdipostHelper::getApiConfig();
+        $this->apiData['web_app_url'] = 'https://no.pbshipment.com';
+        $this->api = new EdipostService($this->apiData['EDIPOST_API_KEY'], $this->apiData['EDIPOST_API_ENDPOINT']);
+        $this->path = _PS_IMG_DIR_;
 
         parent::__construct();
     }
@@ -50,36 +65,35 @@ class AdminEdipostController extends ModuleAdminController
         $builder = new ConsigneeBuilder();
 
         $consignee = $builder
-            ->setCompanyName( $shippingAddressArray['company'] )
-            ->setCustomerNumber( '0' )
-            ->setPostAddress( $shippingAddressArray['street'] )
-            ->setPostZip( $shippingAddressArray['postcode'] )
-            ->setPostCity( $shippingAddressArray['city'] )
-            ->setStreetAddress( $shippingAddressArray['street'] )
-            ->setStreetZip( $shippingAddressArray['postcode'] )
-            ->setStreetCity( $shippingAddressArray['city'] )
-            ->setContactName($shippingAddressArray['firstname'].' '. $shippingAddressArray['lastname'] )
-            ->setContactEmail( $shippingAddressArray['email'] )
-            ->setContactPhone( $shippingAddressArray['telephone'] )
-            ->setContactCellPhone( $shippingAddressArray['telephone'] )
-            ->setContactTelefax( $shippingAddressArray['fax'] )
-            ->setCountry( $shippingAddressArray['country_id'] )
+            ->setCompanyName($shippingAddressArray['company'])
+            ->setCustomerNumber('0')
+            ->setPostAddress($shippingAddressArray['street'])
+            ->setPostZip($shippingAddressArray['postcode'])
+            ->setPostCity($shippingAddressArray['city'])
+            ->setStreetAddress($shippingAddressArray['street'])
+            ->setStreetZip($shippingAddressArray['postcode'])
+            ->setStreetCity($shippingAddressArray['city'])
+            ->setContactName($shippingAddressArray['firstname'] . ' ' . $shippingAddressArray['lastname'])
+            ->setContactEmail($shippingAddressArray['email'])
+            ->setContactPhone($shippingAddressArray['telephone'])
+            ->setContactCellPhone($shippingAddressArray['telephone'])
+            ->setContactTelefax($shippingAddressArray['fax'])
+            ->setCountry($shippingAddressArray['country_id'])
             ->build();
         $consigneeId = 0;
         try {
-            $newConsignee = $this->_api->createConsignee( $consignee );
-            $consigneeId =  $newConsignee->ID;
-        } catch (WebException $exception){
+            $newConsignee = $this->api->createConsignee($consignee);
+            $consigneeId = $newConsignee->ID;
+        } catch (WebException $exception) {
             $error = $exception->getMessage();
         }
-        $url = sprintf($url, $this->_apiData['web_app_url'],  $this->_apiData['EDIPOST_USERNAME'], $this->_apiData['EDIPOST_PASSWORD'], $consigneeId);
+        $url = sprintf($url, $this->apiData['web_app_url'], $this->apiData['EDIPOST_USERNAME'], $this->apiData['EDIPOST_PASSWORD'], $consigneeId);
 
         echo(json_encode([
             'error' => $error,
             'url' => $url,
         ]));
     }
-
 
     public function displayAjaxCreateShipment()
     {
@@ -93,7 +107,7 @@ class AdminEdipostController extends ModuleAdminController
         $product_id = Tools::getValue('product_id', 0);
         $service_id = Tools::getValue('service_id', 0);
         $e_alert = Tools::getValue('e_alert', 0);
-        $reference =  Tools::getValue('reference', '');
+        $reference = Tools::getValue('reference', '');
 
         $order = new Order($order_id);
         $shippingAddressArray = AdminEdipostHelper::loadCustomerAddress($order);
@@ -124,12 +138,12 @@ class AdminEdipostController extends ModuleAdminController
 
         $pdf = '';
         try {
-            $newConsignee = $this->_api->createConsignee($consignee);
+            $newConsignee = $this->api->createConsignee($consignee);
             $consigneeId = $newConsignee->ID;
 
             $builder = new ConsignmentBuilder();
 
-            $consignor = $this->_api->getDefaultConsignor();
+            $consignor = $this->api->getDefaultConsignor();
 
             $consignment = $builder
                 ->setConsignorID($consignor->ID)
@@ -145,14 +159,14 @@ class AdminEdipostController extends ModuleAdminController
                 $width = 0;
                 $height = 0;
 
-                if (!($weight = floatval($product['weight']))) {
+                if (!($weight = (float)$product['weight'])) {
                     $weight = 1;
                 }
 
                 $consignment->addItem(new Item($weight, $length, $width, $height));
             }
 
-            if ($e_alert && in_array(intval($product_id), [8, 457, 16])) {
+            if ($e_alert && in_array((int)$product_id, [8, 457, 16])) {
                 // Add SMS warning
                 if ($shippingAddressArray['telephone']) {
                     $consignment->addService(5, array('EMSG_SMS_NUMBER' => $shippingAddressArray['telephone']));
@@ -165,11 +179,11 @@ class AdminEdipostController extends ModuleAdminController
             }
 
             // Add correct service if product is REK
-            if( ($product_id == 454 || $product_id == 747) && $service_id > 0 ) {
-                $consignment->addService( intval($service_id) );
+            if (($product_id == 454 || $product_id == 747) && $service_id > 0) {
+                $consignment->addService((int)$service_id);
             }
 
-            $newConsignment = $this->_api->createConsignment($consignment->build());
+            $newConsignment = $this->api->createConsignment($consignment->build());
 
             $orderCarrier = new OrderCarrier($order->getIdOrderCarrier());
 
@@ -182,23 +196,18 @@ class AdminEdipostController extends ModuleAdminController
             // Print label
             //
             if ($product_id == 727) {
-                $pdf_content = $this->_api->printConsignmentZpl($newConsignment->id);
+                $pdf_content = $this->api->printConsignmentZpl($newConsignment->id);
             } else {
-                $pdf_content = $this->_api->printConsignment($newConsignment->id);
+                $pdf_content = $this->api->printConsignment($newConsignment->id);
             }
-
             $pdf_name = $newConsignment->id . '_consignment.pdf';
-
-            file_put_contents($this->_path. DIRECTORY_SEPARATOR . $pdf_name, $pdf_content);
-
-            $pdf = (Tools::usingSecureMode() ? Tools::getShopDomainSsl(true) : Tools::getShopDomain(true)) .  '/img/'. $pdf_name;
-
+            file_put_contents($this->path . DIRECTORY_SEPARATOR . $pdf_name, $pdf_content);
+            $pdf = (Tools::usingSecureMode() ? Tools::getShopDomainSsl(true) : Tools::getShopDomain(true)) . '/img/' . $pdf_name;
         } catch (WebException $exception) {    // Errors from edipost client library
             $error = $exception->getMessage();
             echo(json_encode([
                 'error' => $error
             ]));
-
         } catch (\Exception $exception) {    // Other errors
             $error = $exception->getMessage();
             echo(json_encode([
