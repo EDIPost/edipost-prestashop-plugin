@@ -254,6 +254,7 @@ class Edipost extends Module
             'shipping_methods' => $shipping_methods,
             'error_text' => $error_text,
             'prev_product' => Configuration::get('EDIPOST_LAST_SHIPPING_METHOD', 0),
+            'config' => AdminEdipostHelper::getApiConfig(),
         ]);
 
 

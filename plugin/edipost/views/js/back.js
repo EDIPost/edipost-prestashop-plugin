@@ -78,10 +78,8 @@ $(document).on('ready', function () {
 
 function edipost_check_selected_ship(){  // enable buttons after choose shipping method
     if($('select#edipost_ship_method').val() != 0){
-        $('#edipost-open').attr("disabled", false);
         $('#edipost-create').attr("disabled", false);
     } else {
-        $('#edipost-open').attr("disabled", true);
         $('#edipost-create').attr("disabled", true);
     }
 }

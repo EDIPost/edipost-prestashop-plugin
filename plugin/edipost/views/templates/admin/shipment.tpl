@@ -25,7 +25,7 @@
 
 <div class="panel">
     <div class="panel-heading">
-        {l s='Edipost Integration' }
+        {l s='Edipost Integration' mod='edipost'}
     </div>
     <div class="edipost-wrapper">
         <div id="error-block"
@@ -40,7 +40,7 @@
             <div style="display: none" class="loader" id="loader-1"></div>
             <div id="edipost" class="form-horizontal">
                 <div class="form-group">
-                    <label class="control-label col-lg-3">{l s='Choose shipping method' }</label>
+                    <label class="control-label col-lg-3">{l s='Choose shipping method' mod='edipost'}</label>
                     <div class="col-lg-9">
                         <select class="chosen form-control" name="edipost_ship_method" id="edipost_ship_method" autocomplete="off">
                             {if $shipping_methods['options']}
@@ -60,15 +60,15 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-lg-3">{l s='Reference text optional' }</label>
+                    <label class="control-label col-lg-3">{l s='Reference text optional' mod='edipost'}</label>
                     <div class="col-lg-9">
                         <textarea id="edipost_reference" class="textarea-autosize" name="message"
-                                  style="overflow: hidden; overflow-wrap: break-word; resize: none; height: 60px;" autocomplete="off">{l s='Order' } #{$order_id}</textarea>
+                                  style="overflow: hidden; overflow-wrap: break-word; resize: none; height: 60px;" autocomplete="off">{l s='Order' mod='edipost'} #{$order_id}</textarea>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-lg-3">{l s='Electronic alert on SMS/Email' }</label>
+                    <label class="control-label col-lg-3">{l s='Electronic alert on SMS/Email' mod='edipost'}</label>
                     <div class="col-lg-9">
                         <input type="checkbox" name="e_alert" id="e_alert" value="1" class="noborder">
                     </div>
@@ -80,10 +80,11 @@
                 <div class="form-group">
                     <div class="pull-right">
                         <button type="button" id="edipost-create" class="btn btn-primary pull" name="submitEdipost" disabled>
-                            {l s='Create shipment' }
+                            {l s='Create shipment' mod='edipost'}
                         </button>
-                        <button type="button" id="edipost-open" class="btn btn-primary pull" name="openEdipost" disabled>
-                            {l s='Open in Edipost' }
+                        <button type="button" id="edipost-open" class="btn btn-primary pull" name="openEdipost"
+                        {if !$config['EDIPOST_USERNAME'] && !$config['EDIPOST_PASSWORD']} disabled{/if}>
+                            {l s='Open in Edipost' mod='edipost'}
                         </button>
                     </div>
                 </div>
