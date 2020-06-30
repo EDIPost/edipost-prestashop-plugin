@@ -60,7 +60,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-lg-3">{l s='Reference text optional' mod='edipost'}</label>
+                    <label class="control-label col-lg-3">{l s='Reference text (optional)' mod='edipost'}</label>
                     <div class="col-lg-9">
                         <textarea id="edipost_reference" class="textarea-autosize" name="message"
                                   style="overflow: hidden; overflow-wrap: break-word; resize: none; height: 60px;" autocomplete="off">{l s='Order' mod='edipost'} #{$order_id}</textarea>

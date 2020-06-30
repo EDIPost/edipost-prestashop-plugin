@@ -54,7 +54,7 @@ class Edipost extends Module
         parent::__construct();
 
         $this->displayName = $this->l('Edipost');
-        $this->description = $this->l('Edipost IntegrationUser able to print shipping labels from an order)');
+        $this->description = $this->l('Create and print shipping labels directly from an order using the Edipost shipping solution.');
 
         $this->ps_versions_compliancy = array('min' => '1.6', 'max' => _PS_VERSION_);
         $this->controllers = array('ajax');
