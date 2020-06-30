@@ -57,10 +57,10 @@ class AdminEdipostHelper {
         $fromCountry = new Country(Configuration::get('PS_COUNTRY_DEFAULT'), Configuration::get('PS_LANG_DEFAULT'));
 
         return [
-            'toCountryCode' =>$customerAddr['country_id'],
-            'toZipCode' => $customerAddr['postcode'] ? $customerAddr['postcode'] : '1337',
+            'toCountryCode' => $customerAddr['country_id'],
+            'toZipCode' => $customerAddr['postcode'] ? $customerAddr['postcode'] : '',
             'fromCountryCode' => $fromCountry->iso_code,
-            'fromZipCode' => Tools::getValue('postcode') ? Tools::getValue('postcode') : '1337',
+            'fromZipCode' => Tools::getValue('postcode') ? Tools::getValue('postcode') : '',
         ];
     }
 
