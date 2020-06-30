@@ -63,7 +63,7 @@
                     <label class="control-label col-lg-3">{l s='Reference text optional' }</label>
                     <div class="col-lg-9">
                         <textarea id="edipost_reference" class="textarea-autosize" name="message"
-                                  style="overflow: hidden; overflow-wrap: break-word; resize: none; height: 60px;" autocomplete="off">#{$order_id}</textarea>
+                                  style="overflow: hidden; overflow-wrap: break-word; resize: none; height: 60px;" autocomplete="off">{l s='Order' } #{$order_id}</textarea>
                     </div>
                 </div>
 
