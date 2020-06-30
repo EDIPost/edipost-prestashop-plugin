@@ -40,7 +40,7 @@
             <div style="display: none" class="loader" id="loader-1"></div>
             <div id="edipost" class="form-horizontal">
                 <div class="form-group">
-                    <label class="control-label col-lg-3">{l s='Choose shiping method' }</label>
+                    <label class="control-label col-lg-3">{l s='Choose shipping method' }</label>
                     <div class="col-lg-9">
                         <select class="chosen form-control" name="edipost_ship_method" id="edipost_ship_method" autocomplete="off">
                             {if $shipping_methods['options']}

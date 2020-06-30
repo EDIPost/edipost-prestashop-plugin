@@ -4,7 +4,7 @@ Edipost integration for PrestaShop
 
 The code should go into the `modules` folder
 
-**Run test environment**
+## Run test environment
 
 1. cd docker-prestashop
 2. rename .env.example to .env (edit data if it needed)
@@ -23,10 +23,11 @@ Four Prestashop instances will be runned (with default settings):
     
     - Password: prestashop_demo    
 
-# Meta
+## Setup store
+- Setup country code in International -> Localization -> Configuration
+- Setup zip/postal code in Contact -> Store menu.
 
-PS: fill Zip/postal code in Contact - Store menu. it will be used for from shiping section 
-
+# Meta 
 
 Vasil M – Skype: vasil.ysbm
 

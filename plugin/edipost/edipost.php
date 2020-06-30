@@ -274,7 +274,7 @@ class Edipost extends Module
         $options = [ // first disabled element
             [
                 'id' => 0,
-                'name' => $this->l('Select an option'),
+                'name' => $this->l('-- Select an option --'),
                 'status' => $this->l('Available'),
                 'service' => ''
                 ]
