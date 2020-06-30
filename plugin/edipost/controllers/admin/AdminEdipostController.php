@@ -98,7 +98,7 @@ class AdminEdipostController extends ModuleAdminController
         $order = new Order($order_id);
         $shippingAddressArray = AdminEdipostHelper::loadCustomerAddress($order);
 
-        Configuration::updateValue('EDIPOST_LAST_SHIPPING_METHOD', $product_id);
+        Configuration::updateValue('EDIPOST_LAST_SHIPPING_METHOD', $service_id . '_' . $product_id);
         //
         // Create consignee
         //

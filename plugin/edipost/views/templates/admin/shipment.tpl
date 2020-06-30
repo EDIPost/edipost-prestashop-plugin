@@ -45,8 +45,10 @@
                         <select class="chosen form-control" name="edipost_ship_method" id="edipost_ship_method" autocomplete="off">
                             {if $shipping_methods['options']}
                                 {foreach $shipping_methods['options'] as $product}
+                                    {assign var='undescore' value="_" }'
+                                    {assign var='curr_product' value=$product['service']|cat:"_"|cat:$product['id']}
                                     <option
-                                            {if $product['id'] == $prev_product}selected{/if}
+                                            {if $curr_product == $prev_product}selected{/if}
                                             {if $product['status'] != 'Available'}disable{/if}
                                             data-status ="{$product['status']}"
                                             data-service="{$product['service']}" value="{$product['id']}">{$product['name']}</option>
@@ -83,7 +85,7 @@
                             {l s='Create shipment' mod='edipost'}
                         </button>
                         <button type="button" id="edipost-open" class="btn btn-primary pull" name="openEdipost"
-                        {if !$config['EDIPOST_USERNAME'] && !$config['EDIPOST_PASSWORD']} disabled{/if}>
+                        {if !$config['EDIPOST_USERNAME'] || !$config['EDIPOST_PASSWORD']} disabled{/if}>
                             {l s='Open in Edipost' mod='edipost'}
                         </button>
                     </div>
