@@ -22,7 +22,7 @@ class AdminEdipostHelper {
             'EDIPOST_LAST_SHIPPING_METHOD' => Configuration::get('EDIPOST_LAST_SHIPPING_METHOD', 0),
         );
         if(!$config['EDIPOST_API_KEY']){
-            throw new Exception('Empty EDIPOST_API_KEY');
+            throw new Exception('API key cannot be empty. Please contact support.');
         }
         return $config;
     }

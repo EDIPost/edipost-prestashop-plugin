@@ -319,7 +319,7 @@ class Edipost extends Module
         }
 
         if(count($options) == 1){
-            $error = $this->l('There are no available shipping methods for that') . '<br>' . $error;
+            $error = $this->l('There are no available shipping methods.') . '<br>' . $error;
         }
 
         return array(
