@@ -70,6 +70,7 @@ class Edipost extends Module
         Configuration::updateValue('EDIPOST_API_KEY', '');
         Configuration::updateValue('EDIPOST_USERNAME', null);
         Configuration::updateValue('EDIPOST_PASSWORD', null);
+        Configuration::updateValue('EDIPOST_LAST_SHIPPING_METHOD', 0);
 
         return parent::install() &&
             $this->registerHook('header') &&
@@ -81,8 +82,11 @@ class Edipost extends Module
 
     public function uninstall()
     {
-        Configuration::deleteByName('EDIPOST_LIVE_MODE');
-        Configuration::deleteByName('EDIPOST_LIVE_MODE');
+        Configuration::deleteByName('EDIPOST_PRODUCTION_MODE');
+        Configuration::deleteByName('EDIPOST_API_KEY');
+        Configuration::deleteByName('EDIPOST_USERNAME');
+        Configuration::deleteByName('EDIPOST_PASSWORD');
+        Configuration::deleteByName('EDIPOST_LAST_SHIPPING_METHOD');
 
         return parent::uninstall();
     }
@@ -249,6 +253,7 @@ class Edipost extends Module
             'customer_id' => $customer_id,
             'shipping_methods' => $shipping_methods,
             'error_text' => $error_text,
+            'prev_product' => Configuration::get('EDIPOST_LAST_SHIPPING_METHOD', 0),
         ]);
 
 
@@ -314,7 +319,7 @@ class Edipost extends Module
         }
 
         if(count($options) == 1){
-            $error = $this->l('There are no available shipping methods for that') . ' ' . $error;
+            $error = $this->l('There are no available shipping methods for that') . '<br>' . $error;
         }
 
         return array(
