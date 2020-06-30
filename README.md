@@ -27,6 +27,10 @@ Four Prestashop instances will be runned (with default settings):
 - Setup country code in International -> Localization -> Configuration
 - Setup zip/postal code in Contact -> Store menu.
 
+## Publish store
+
+https://validator.prestashop.com
+
 # Meta 
 
 Vasil M – Skype: vasil.ysbm
