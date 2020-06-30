@@ -236,12 +236,22 @@ class Edipost extends Module
         $order = new Order($param['id_order']);
         $customer_id = $order->id_customer;
 
+        $error_text = '';
+        $shipping_methods = $this->getShippingMethods($order);
+
+        if($shipping_methods['error']){
+            $error_text = $shipping_methods['error'];
+        }
+
         $this->context->smarty->assign([
             'module_dir' => $this->_path,
             'order_id' => $order->id,
             'customer_id' => $customer_id,
-            'shipping_methods' => $this->getShippingMethods($order),
+            'shipping_methods' => $shipping_methods,
+            'error_text' => $error_text,
         ]);
+
+
         return $this->context->smarty->fetch($this->local_path . 'views/templates/admin/shipment.tpl');
 
     }
@@ -256,7 +266,14 @@ class Edipost extends Module
         $items = [];
         $error = '';
         $shippingData = AdminEdipostHelper::getShippingAdress($order);
-        $options = [];
+        $options = [ // first disabled element
+            [
+                'id' => 0,
+                'name' => $this->l('Select an option'),
+                'status' => $this->l('Available'),
+                'service' => ''
+                ]
+        ];
 
         foreach ($order->getProducts() as $product) {
             if (!($weight = floatval($product['weight']))) {
@@ -292,11 +309,17 @@ class Edipost extends Module
 
         } catch (WebException $exception) {
             $error = $exception->getMessage();
+        } catch (\Exception $exception) {    // Other errors
+            $error = $exception->getMessage();
+        }
+
+        if(count($options) == 1){
+            $error = $this->l('There are no available shipping methods for that') . ' ' . $error;
         }
 
         return array(
-            'options' =>$options,
-            'error' =>$error,
+            'options' => $options,
+            'error' => $error,
         );
     }
 }
