@@ -2,12 +2,6 @@
 
 require_once(_PS_MODULE_DIR_.'/edipost/lib/php-rest-client/init.php');
 
-//use Order;
-//use Country;
-//use Configuration;
-//use Address;
-//use Customer;
-//use OrderCarrier;
 
 class AdminEdipostHelper {
     private $_apiData;
@@ -60,7 +54,7 @@ class AdminEdipostHelper {
             'toCountryCode' => $customerAddr['country_id'],
             'toZipCode' => $customerAddr['postcode'] ? $customerAddr['postcode'] : '',
             'fromCountryCode' => $fromCountry->iso_code,
-            'fromZipCode' => Tools::getValue('postcode') ? Tools::getValue('postcode') : '',
+            'fromZipCode' => Configuration::get('PS_SHOP_CODE'),
         ];
     }
 
