@@ -36,14 +36,14 @@ class AdminEdipostController extends ModuleAdminController
 
     public function displayAjaxOpenUrl()
     {
-        if (!isset($_POST['id_order'])) {
+        if (!Tools::getIsset('id_order')) {
             throw new Exception($this->module->l('Wrong params'));
         }
 
         $error = '';
         $url = '%s/login?Username=%s&Password=%s#id=%s';
 
-        $order_id = $_POST['id_order'];
+        $order_id = Tools::getValue('id_order', 0);
         $order = new Order($order_id);
         $shippingAddressArray = AdminEdipostHelper::loadCustomerAddress($order);
 
@@ -83,17 +83,17 @@ class AdminEdipostController extends ModuleAdminController
 
     public function displayAjaxCreateShipment()
     {
-        if (!isset($_POST['id_order'])) {
+        if (!Tools::getIsset('id_order')) {
             throw new Exception($this->module->l('Wrong params'));
         }
 
         $error = '';
 
-        $order_id = isset($_POST['id_order']) ? $_POST['id_order'] :  0;
-        $product_id = isset($_POST['product_id']) ? $_POST['product_id'] : 0;
-        $service_id = isset($_POST['service_id']) ? $_POST['service_id'] : 0;
-        $e_alert = isset($_POST['e_alert']) ? $_POST['e_alert'] : 0;
-        $reference =  isset($_POST['reference']) ? $_POST['reference'] : '';
+        $order_id = Tools::getValue('id_order', 0);
+        $product_id = Tools::getValue('product_id', 0);
+        $service_id = Tools::getValue('service_id', 0);
+        $e_alert = Tools::getValue('e_alert', 0);
+        $reference =  Tools::getValue('reference', '');
 
         $order = new Order($order_id);
         $shippingAddressArray = AdminEdipostHelper::loadCustomerAddress($order);

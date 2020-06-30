@@ -201,8 +201,8 @@ class Edipost extends Module
         return array(
             'EDIPOST_PRODUCTION_MODE' => Configuration::get('EDIPOST_PRODUCTION_MODE', true),
             'EDIPOST_API_KEY' => Configuration::get('EDIPOST_API_KEY', ''),
-            'EDIPOST_USERNAME' => Configuration::get('EDIPOST_USERNAME', null),
-            'EDIPOST_PASSWORD' => Configuration::get('EDIPOST_PASSWORD', null),
+            'EDIPOST_USERNAME' => Configuration::get('EDIPOST_USERNAME', ''),
+            'EDIPOST_PASSWORD' => Configuration::get('EDIPOST_PASSWORD', ''),
         );
     }
 
@@ -214,6 +214,9 @@ class Edipost extends Module
         $form_values = $this->getConfigFormValues();
 
         foreach (array_keys($form_values) as $key) {
+            if($key == 'EDIPOST_PASSWORD' && Configuration::get('EDIPOST_PASSWORD', '') == Tools::getValue($key)){
+                continue;
+            }
             Configuration::updateValue($key, Tools::getValue($key));
         }
     }
