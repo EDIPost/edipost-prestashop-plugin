@@ -2,11 +2,14 @@
 
 require_once(_PS_MODULE_DIR_.'/edipost/lib/php-rest-client/init.php');
 
+use PrestaShop\PrestaShop\Adapter\Module\Module;
 
 class AdminEdipostHelper {
     private $_apiData;
     private $_api;
+
     static function getApiConfig(){
+        $module = new Module();
         $config = array(
             'EDIPOST_PRODUCTION_MODE' => Configuration::get('EDIPOST_PRODUCTION_MODE', true),
             'EDIPOST_API_KEY' => Configuration::get('EDIPOST_API_KEY', ''),
@@ -16,7 +19,7 @@ class AdminEdipostHelper {
             'EDIPOST_LAST_SHIPPING_METHOD' => Configuration::get('EDIPOST_LAST_SHIPPING_METHOD', 0),
         );
         if(!$config['EDIPOST_API_KEY']){
-            throw new Exception('API key cannot be empty. Please contact support.');
+            throw new Exception($module->l('API key cannot be empty. Please contact support.'));
         }
         return $config;
     }
