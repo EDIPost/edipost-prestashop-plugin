@@ -170,7 +170,6 @@ class Edipost extends Module
                     array(
                         'col' => 3,
                         'type' => 'text',
-                        'prefix' => '<i class="icon "></i>',
                         'desc' => $this->l('Enter a valid api key'),
                         'name' => 'EDIPOST_API_KEY',
                         'label' => $this->l('API key'),
