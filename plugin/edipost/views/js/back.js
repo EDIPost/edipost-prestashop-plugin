@@ -26,7 +26,7 @@
 * to avoid any conflicts with others containers.
 */
 function message(msg, type) {
-    var html_str = '<div class="messages"><div class="message message-' + type + ' type' + '"><div data-ui-id="messages-message-' + type + '">' + msg + '</div></div></div>';
+    var html_str = '<div class="alert alert-' + type + '">' + msg + '</div>';
     $('.edipost-wrapper #error-block').html(html_str);
     $('.edipost-wrapper #error-block').show();
 }
@@ -67,12 +67,32 @@ $(document).on('click', '#edipost-open', function (e) {
     });
 });
 
+$(document).on('change', 'select#edipost_ship_method', function (e) {
+    e.preventDefault();
+    edipost_check_selected_ship();
+});
+
+$(document).on('ready', function () {
+    edipost_check_selected_ship();
+});
+
+function edipost_check_selected_ship(){  // enable buttons after choose shipping method
+    if($('select#edipost_ship_method').val() != 0){
+        $('#edipost-open').attr("disabled", false);
+        $('#edipost-create').attr("disabled", false);
+    } else {
+        $('#edipost-open').attr("disabled", true);
+        $('#edipost-create').attr("disabled", true);
+    }
+}
+
 
 /**
  * Create consignment using the API
  */
 $(document).on('click', '#edipost-create', function (e) {
     e.preventDefault();
+    $('.edipost-wrapper .loader').show();
     var e_alert = 0;
 
     if ($('#edipost_e_alert').is(':checked')) {
@@ -90,12 +110,11 @@ $(document).on('click', '#edipost-create', function (e) {
         data: {
             ajax: true,
             action: 'CreateShipment', // prestashop already set camel case before execute method
-            // token: token,
             id_order: $('#id_order').val(),
             product_id: $('#edipost_ship_method').val(),
             service_id: $('#edipost_ship_method').find(":selected").data('service'),
             e_alert: e_alert,
-            reference: $('#edipost_reference:checked').val(),
+            reference: $('#edipost_reference').val(),
         },
 
         success: function (data) {
@@ -108,14 +127,16 @@ $(document).on('click', '#edipost-create', function (e) {
                 a.target = '_blank';
                 a.download = 'consignment.pdf';
                 a.click();
+                message( 'Consignment was created: <a href="' + data.pdf + '" target="_blank">consignment.pdf</a>', 'success' );
             } else {
-                message( 'Error when creating consignment: ' + data.error, 'error' );
+                message( 'Error when creating consignment: ' + data.error, 'warning' );
             }
+            $('.edipost-wrapper .loader').hide();
         },
         error: function (data) {
             $('#edipost-create').attr("disabled", false);
-            console.log(data);
             message( 'Error when creating consignment: ' + data.error, 'error' );
+            $('.edipost-wrapper .loader').hide();
         }
     });
 });

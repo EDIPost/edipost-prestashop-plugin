@@ -28,13 +28,21 @@
         {l s='Edipost Integration' }
     </div>
     <div class="edipost-wrapper">
-        <div class="error-block" id="error-block"></div>
+        <div id="error-block"
+                {if !$error_text } style="display: none;"  {/if}
+             class="error-block">
+            <div class="alert alert-warning">
+                {$error_text }
+            </div>
+        </div>
+
         <form action="" method="post">
+            <div style="display: none" class="loader" id="loader-1"></div>
             <div id="edipost" class="form-horizontal">
                 <div class="form-group">
                     <label class="control-label col-lg-3">{l s='Choose shiping method' }</label>
                     <div class="col-lg-9">
-                        <select class="chosen form-control" name="edipost_ship_method" id="edipost_ship_method">
+                        <select class="chosen form-control" name="edipost_ship_method" id="edipost_ship_method" autocomplete="on">
                             {if $shipping_methods['options']}
                                 {foreach $shipping_methods['options'] as $product}
                                     <option
@@ -55,8 +63,8 @@
                 <div class="form-group">
                     <label class="control-label col-lg-3">{l s='Reference text optional' }</label>
                     <div class="col-lg-9">
-                        <textarea id="txt_msg" class="textarea-autosize" name="message"
-                                  style="overflow: hidden; overflow-wrap: break-word; resize: none; height: 60px;"></textarea>
+                        <textarea id="edipost_reference" class="textarea-autosize" name="message"
+                                  style="overflow: hidden; overflow-wrap: break-word; resize: none; height: 60px;" autocomplete="off">#{$order_id}</textarea>
                     </div>
                 </div>
 
@@ -72,10 +80,10 @@
                 <input type="hidden" id="id_customer" name="id_customer" value="{$customer_id}">
                 <div class="form-group">
                     <div class="pull-right">
-                        <button type="button" id="edipost-create" class="btn btn-primary pull" name="submitEdipost">
+                        <button type="button" id="edipost-create" class="btn btn-primary pull" name="submitEdipost" disabled>
                             {l s='Create shipment' }
                         </button>
-                        <button type="button" id="edipost-open" class="btn btn-primary pull" name="openEdipost">
+                        <button type="button" id="edipost-open" class="btn btn-primary pull" name="openEdipost" disabled>
                             {l s='Open in Edipost' }
                         </button>
                     </div>

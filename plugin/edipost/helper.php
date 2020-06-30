@@ -51,7 +51,6 @@ class AdminEdipostHelper {
         $customerAddr = self::loadCustomerAddress($order);
         $fromCountry = new Country(Configuration::get('PS_COUNTRY_DEFAULT'), Configuration::get('PS_LANG_DEFAULT'));
 
-//        $toCountryID = Country::getIdByName($customerAddr['id_lang'], $customerAddr['country_id']);
         return [
             'toCountryCode' =>$customerAddr['country_id'],
             'toZipCode' => $customerAddr['postcode'] ? $customerAddr['postcode'] : '1337',
