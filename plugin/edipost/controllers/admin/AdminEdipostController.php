@@ -37,7 +37,7 @@ class AdminEdipostController extends ModuleAdminController
 {
     private $apiData;
     private $api;
-    private $path;
+    public $path;
 
     public function __construct()
     {
