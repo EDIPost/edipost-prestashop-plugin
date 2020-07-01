@@ -87,7 +87,13 @@ class AdminEdipostController extends ModuleAdminController
         } catch (WebException $exception) {
             $error = $exception->getMessage();
         }
-        $url = sprintf($url, $this->apiData['web_app_url'], $this->apiData['EDIPOST_USERNAME'], $this->apiData['EDIPOST_PASSWORD'], $consigneeId);
+        $url = sprintf(
+            $url,
+            $this->apiData['web_app_url'],
+            $this->apiData['EDIPOST_USERNAME'],
+            $this->apiData['EDIPOST_PASSWORD'],
+            $consigneeId
+        );
 
         echo(json_encode([
             'error' => $error,
@@ -202,7 +208,8 @@ class AdminEdipostController extends ModuleAdminController
             }
             $pdf_name = $newConsignment->id . '_consignment.pdf';
             file_put_contents($this->path . DIRECTORY_SEPARATOR . $pdf_name, $pdf_content);
-            $pdf = (Tools::usingSecureMode() ? Tools::getShopDomainSsl(true) : Tools::getShopDomain(true)) . '/img/' . $pdf_name;
+            $pdf = (Tools::usingSecureMode() ? Tools::getShopDomainSsl(true) : Tools::getShopDomain(true))
+                . '/img/' . $pdf_name;
         } catch (WebException $exception) {    // Errors from edipost client library
             $error = $exception->getMessage();
             echo(json_encode([

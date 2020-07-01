@@ -38,7 +38,8 @@ class AdminEdipostHelper
             'EDIPOST_API_KEY' => Configuration::get('EDIPOST_API_KEY', ''),
             'EDIPOST_USERNAME' => Configuration::get('EDIPOST_USERNAME', null),
             'EDIPOST_PASSWORD' => Configuration::get('EDIPOST_PASSWORD', null),
-            'EDIPOST_API_ENDPOINT' => Configuration::get('EDIPOST_PRODUCTION_MODE', null) ? 'https://api.pbshipment.com' : 'https://api.pbshipment.com',
+            'EDIPOST_API_ENDPOINT' => Configuration::get('EDIPOST_PRODUCTION_MODE', null) ?
+                'https://api.pbshipment.com' : 'https://api.pbshipment.com',
             'EDIPOST_LAST_SHIPPING_METHOD' => Configuration::get('EDIPOST_LAST_SHIPPING_METHOD', 0),
         );
         if (!$config['EDIPOST_API_KEY']) {
