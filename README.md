@@ -21,7 +21,7 @@ Four Prestashop instances will be runned (with default settings):
  
     - Email: demo@prestashop.com
     
-    - Password: prestashop_demo    
+    - Password: prestashop_demo
 
 ## Setup store
 - Setup country code in International -> Localization -> Configuration
