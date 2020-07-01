@@ -40,7 +40,7 @@ function autoLoad() {
 	$objects = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path), \ RecursiveIteratorIterator::SELF_FIRST);
 	foreach ($objects as $name => $object) {
 		if (substr($object->getBasename(), strpos($object->getBasename(), ".")) == '.php') {
-			if (!stristr($object->getBasename(), 'test')) {
+			if (!stristr($object->getBasename(), 'test') && !strstr($object->getBasename(), 'index')) {
 				require_once($object->getPath() . DIRECTORY_SEPARATOR . $object->getBasename());
 			}
 		}
