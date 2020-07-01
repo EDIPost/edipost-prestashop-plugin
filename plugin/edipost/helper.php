@@ -32,7 +32,6 @@ class AdminEdipostHelper
 {
     public static function getApiConfig()
     {
-        $module = new Module();
         $config = array(
             'EDIPOST_PRODUCTION_MODE' => Configuration::get('EDIPOST_PRODUCTION_MODE', true),
             'EDIPOST_API_KEY' => Configuration::get('EDIPOST_API_KEY', ''),
@@ -42,9 +41,6 @@ class AdminEdipostHelper
                 'https://api.pbshipment.com' : 'https://api.pbshipment.com',
             'EDIPOST_LAST_SHIPPING_METHOD' => Configuration::get('EDIPOST_LAST_SHIPPING_METHOD', 0),
         );
-        if (!$config['EDIPOST_API_KEY']) {
-            throw new Exception($module->l('API key cannot be empty. Please contact support.'));
-        }
         return $config;
     }
 

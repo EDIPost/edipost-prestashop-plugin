@@ -294,30 +294,34 @@ class Edipost extends Module
         try {
             $_apiData = AdminEdipostHelper::getApiConfig();
 
-            $_api = new EdipostService($_apiData['EDIPOST_API_KEY'], $_apiData['EDIPOST_API_ENDPOINT']);
-            $products = $_api->getAvailableProducts(
-                $shippingData['fromZipCode'],
-                $shippingData['fromCountryCode'],
-                $shippingData['toZipCode'],
-                $shippingData['toCountryCode'],
-                $items
-            );
-            foreach ($products as $product) {
-                $services = [];
-                foreach ($product->getServices() as $service) {
-                    $services[] = $service->getId();
-                }
+            if($_apiData['EDIPOST_API_KEY']){
+                $_api = new EdipostService($_apiData['EDIPOST_API_KEY'], $_apiData['EDIPOST_API_ENDPOINT']);
+                $products = $_api->getAvailableProducts(
+                    $shippingData['fromZipCode'],
+                    $shippingData['fromCountryCode'],
+                    $shippingData['toZipCode'],
+                    $shippingData['toCountryCode'],
+                    $items
+                );
+                foreach ($products as $product) {
+                    $services = [];
+                    foreach ($product->getServices() as $service) {
+                        $services[] = $service->getId();
+                    }
 
-                $options[] = [
-                    'id' => $product->getId(),
-                    'name' => $product->getName(),
-                    'status' => $product->getStatus(),
-                    'service' => count($services) > 0 ? $services[0] : ''
-                ];
+                    $options[] = [
+                        'id' => $product->getId(),
+                        'name' => $product->getName(),
+                        'status' => $product->getStatus(),
+                        'service' => count($services) > 0 ? $services[0] : ''
+                    ];
+                }
+            } else {
+                throw new Exception($this->l('API key cannot be empty. Please contact support.'));
             }
         } catch (WebException $exception) {
             $error = $exception->getMessage();
-        } catch (\Exception $exception) {    // Other errors
+        } catch (Exception $exception) {    // Other errors
             $error = $exception->getMessage();
         }
 
