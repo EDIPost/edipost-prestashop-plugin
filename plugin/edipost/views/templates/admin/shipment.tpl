@@ -72,7 +72,7 @@
                 <div class="form-group">
                     <label class="control-label col-lg-3">{l s='Electronic alert on SMS/Email' mod='edipost'}</label>
                     <div class="col-lg-9">
-                        <input type="checkbox" name="e_alert" id="e_alert" value="1" class="noborder">
+                        <input type="checkbox" name="edipost_e_alert" id="edipost_e_alert" value="1" class="noborder" checked>
                     </div>
                 </div>
 
