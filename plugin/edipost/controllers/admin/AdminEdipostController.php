@@ -185,7 +185,8 @@ class AdminEdipostController extends ModuleAdminController
             }
 
             // Add correct service if product is REK
-            if (($product_id == 454 || $product_id == 747) && $service_id > 0) {
+            if (($product_id == 454 || $product_id == 456
+					|| $product_id == 747 || $product_id == 757) && $service_id > 0) {
                 $consignment->addService((int)$service_id);
             }
 
