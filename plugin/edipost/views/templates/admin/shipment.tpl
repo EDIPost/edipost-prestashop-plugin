@@ -64,15 +64,15 @@
                 <div class="form-group">
                     <label class="control-label col-lg-3">{l s='Reference text (optional)' mod='edipost'}</label>
                     <div class="col-lg-9">
-                        <textarea id="edipost_reference" class="textarea-autosize" name="message"
+                        <textarea id="edipost_reference" class="textarea-autosize" name="message" maxlength="35"
                                   style="overflow: hidden; overflow-wrap: break-word; resize: none; height: 60px;" autocomplete="off">{l s='Order' mod='edipost'} #{$order_id}</textarea>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="control-label col-lg-3">{l s='Electronic alert on SMS/Email' mod='edipost'}</label>
-                    <div class="col-lg-9">
-                        <input type="checkbox" name="e_alert" id="e_alert" value="1" class="noborder">
+                    <div class="col-lg-9" style="padding-top: 6px;">
+                        <input type="checkbox" name="edipost_e_alert" id="edipost_e_alert" value="1" class="noborder" checked>
                     </div>
                 </div>
 

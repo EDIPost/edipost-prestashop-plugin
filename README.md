@@ -24,8 +24,8 @@ Four Prestashop instances will be runned (with default settings):
     - Password: prestashop_demo
 
 ## Setup store
-- Setup country code in International -> Localization -> Configuration
-- Setup zip/postal code in Contact -> Store menu.
+- Setup country code in International -> Localization -> Configuration -> Default Country
+- Setup zip/postal code in Shop Parameters -> Contact -> Store menu.
 
 ## Publish store
 
