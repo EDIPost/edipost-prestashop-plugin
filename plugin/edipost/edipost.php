@@ -177,7 +177,7 @@ class Edipost extends Module
                         'label' => $this->l('Username'),
                     ),
                     array(
-                        'type' => 'password',
+                        'type' => 'text',
                         'name' => 'EDIPOST_PASSWORD',
                         'label' => $this->l('Password'),
                     ),
@@ -243,8 +243,8 @@ class Edipost extends Module
         $error_text = '';
         $shipping_methods = $this->getShippingMethods($order);
 
-        if ($shipping_methods['error']) {
-            $error_text = $shipping_methods['error'];
+        if ($shipping_methods['is_error']) {
+            $error_text = $shipping_methods['is_error'];
         }
 
         $this->context->smarty->assign([
@@ -269,6 +269,7 @@ class Edipost extends Module
     {
         $items = [];
         $error = '';
+        $full_error = '';
         $shippingData = AdminEdipostHelper::getShippingAdress($order);
         $options = [ // first disabled element
             [
@@ -320,18 +321,19 @@ class Edipost extends Module
                 throw new Exception($this->l('API key cannot be empty. Please contact support.'));
             }
         } catch (WebException $exception) {
-            $error = $exception->getMessage();
+            $full_error = $exception->getMessage();
         } catch (Exception $exception) {    // Other errors
-            $error = $exception->getMessage();
+            $full_error = $exception->getMessage();
         }
 
         if (count($options) == 1) {
-            $error = $this->l('There are no available shipping methods.') . '<br>' . $error;
+            $error = $this->l('There are no available shipping methods.') . '<br>';
         }
 
         return array(
             'options' => $options,
-            'error' => $error,
+            'is_error' => $error,
+            'full_error' => $full_error,
         );
     }
 }

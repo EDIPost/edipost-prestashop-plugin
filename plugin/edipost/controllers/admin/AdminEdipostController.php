@@ -56,6 +56,7 @@ class AdminEdipostController extends ModuleAdminController
         }
 
         $error = '';
+        $full_error = '';
         $url = '%s/login?Username=%s&Password=%s#id=%s';
 
         $order_id = Tools::getValue('id_order', 0);
@@ -85,7 +86,8 @@ class AdminEdipostController extends ModuleAdminController
             $newConsignee = $this->api->createConsignee($consignee);
             $consigneeId = $newConsignee->ID;
         } catch (WebException $exception) {
-            $error = $exception->getMessage();
+            $error = $this->module->l('Error when open consignment');
+            $full_error = $exception->getMessage();
         }
         $url = sprintf(
             $url,
@@ -96,7 +98,8 @@ class AdminEdipostController extends ModuleAdminController
         );
 
         echo(json_encode([
-            'error' => $error,
+            'is_error' => $error,
+            'full_error' => $full_error,
             'url' => $url,
         ]));
     }
@@ -108,6 +111,8 @@ class AdminEdipostController extends ModuleAdminController
         }
 
         $error = '';
+        $full_error= '';
+        $return = [];
 
         $order_id = Tools::getValue('id_order', 0);
         $product_id = Tools::getValue('product_id', 0);
@@ -211,21 +216,28 @@ class AdminEdipostController extends ModuleAdminController
             $pdf = (Tools::usingSecureMode() ? Tools::getShopDomainSsl(true) : Tools::getShopDomain(true))
                 . '/img/' . $pdf_name;
         } catch (WebException $exception) {    // Errors from edipost client library
-            $error = $exception->getMessage();
-            echo(json_encode([
-                'error' => $error
-            ]));
+            $error = $this->module->l('Error when creating consignment');
+            $full_error = $exception->getMessage();
+            $return = [
+                'is_error' => $error,
+                'full_error' => $full_error
+            ];
         } catch (\Exception $exception) {    // Other errors
-            $error = $exception->getMessage();
-            echo(json_encode([
-                'error' => $error
-            ]));
+            $error = $this->module->l('Error when creating consignment');
+            $full_error = $exception->getMessage();
+            $return = [
+                'is_error' => $error,
+                'full_error' => $full_error
+            ];
         }
-
-        echo(json_encode([
-            'error' => $error,
-            'product_id' => $product_id,
-            'pdf' => $pdf,
-        ]));
+        if(!$return){
+            $return = [
+                'is_error' => $error,
+                'full_error' => $full_error,
+                'product_id' => $product_id,
+                'pdf' => $pdf,
+            ];
+        }
+        echo(json_encode($return));
     }
 }

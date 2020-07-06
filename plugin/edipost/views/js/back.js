@@ -52,17 +52,18 @@ $(document).on('click', '#edipost-open', function (e) {
         success: function (data) {
             $('#edipost-open').attr("disabled", false);
 
-            if (!(data.error)) {
+            if (!(data.is_error)) {
                 window.open(data.url, '_blank');
                 message( 'OK', 'success');
             } else {
-                console.log(JSON.stringify(data));
-                message( JSON.stringify(data.error), 'error');
+                message( data.is_error, 'warning');
+                console.log(data.full_error);
             }
         },
         error: function (data) {
             $('#edipost-open').attr("disabled", false);
-            message( JSON.stringify(data.error), 'error');
+            message( data.is_error, 'warning');
+            console.log(data.full_error);
         }
     });
 });
@@ -118,7 +119,7 @@ $(document).on('click', '#edipost-create', function (e) {
         success: function (data) {
             $('#edipost-create').attr("disabled", false);
 
-            if( ! data.error ){
+            if( ! data.is_error ){
                 console.log(data.pdf);
                 var a = document.createElement('a');
                 a.href= data.pdf;
@@ -127,13 +128,15 @@ $(document).on('click', '#edipost-create', function (e) {
                 a.click();
                 message( 'Consignment was created: <a href="' + data.pdf + '" target="_blank">consignment.pdf</a>', 'success' );
             } else {
-                message( 'Error when creating consignment: ' + data.error, 'warning' );
+                message( data.is_error, 'warning' );
+                console.log(data.full_error);
             }
             $('.edipost-wrapper .loader').hide();
         },
         error: function (data) {
             $('#edipost-create').attr("disabled", false);
-            message( 'Error when creating consignment: ' + data.error, 'error' );
+            message( data.is_error, 'warning' );
+            console.log(data.full_error);
             $('.edipost-wrapper .loader').hide();
         }
     });
