@@ -24,8 +24,10 @@ Four Prestashop instances will be runned (with default settings):
     - Password: prestashop_demo
 
 ## Setup store
-- Setup country code in International -> Localization -> Configuration -> Default Country
-- Setup zip/postal code in Shop Parameters -> Contact -> Store menu.
+1. Setup country code in International -> Localization -> Configuration -> Default Country
+2. Setup zip/postal code in Shop Parameters -> Contact -> Store menu.
+3. Modules -> Search for "Edipost". Click Install.
+4. Modules -> Installed modules. Click Configure on module Edipost.
 
 ## Publish store
 

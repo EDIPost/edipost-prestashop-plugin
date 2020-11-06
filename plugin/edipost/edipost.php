@@ -177,6 +177,7 @@ class Edipost extends Module
                         'label' => $this->l('Username'),
                     ),
                     array(
+						'col' => 3,
                         'type' => 'text',
                         'name' => 'EDIPOST_PASSWORD',
                         'label' => $this->l('Password'),
