@@ -32,7 +32,7 @@
                 {if !$error_text } style="display: none;"  {/if}
              class="error-block">
             <div class="alert alert-warning">
-                {$error_text }
+                {$error_text|escape:'htmlall':'UTF-8'}
             </div>
         </div>
 
@@ -50,8 +50,8 @@
                                     <option
                                             {if $curr_product == $prev_product}selected{/if}
                                             {if $product['status'] != 'Available'}disable{/if}
-                                            data-status ="{$product['status']}"
-                                            data-service="{$product['service']}" value="{$product['id']}">{$product['name']}</option>
+                                            data-status ="{$product['status']|escape:'htmlall':'UTF-8'}"
+                                            data-service="{$product['service']|escape:'htmlall':'UTF-8'}" value="{$product['id']|escape:'htmlall':'UTF-8'}">{$product['name']|escape:'htmlall':'UTF-8'}</option>
                                 {/foreach}
                             {/if}
 
@@ -65,7 +65,7 @@
                     <label class="control-label col-lg-3">{l s='Reference text (optional)' mod='edipost'}</label>
                     <div class="col-lg-9">
                         <textarea id="edipost_reference" class="textarea-autosize" name="message" maxlength="35"
-                                  style="overflow: hidden; overflow-wrap: break-word; resize: none; height: 60px;" autocomplete="off">{l s='Order' mod='edipost'} #{$order_id}</textarea>
+                                  style="overflow: hidden; overflow-wrap: break-word; resize: none; height: 60px;" autocomplete="off">{l s='Order' mod='edipost'} #{$order_id|escape:'htmlall':'UTF-8'}</textarea>
                     </div>
                 </div>
 
@@ -77,8 +77,8 @@
                 </div>
 
 
-                <input type="hidden" id="id_order" name="id_order" value="{$order_id}">
-                <input type="hidden" id="id_customer" name="id_customer" value="{$customer_id}">
+                <input type="hidden" id="id_order" name="id_order" value="{$order_id|escape:'htmlall':'UTF-8'}">
+                <input type="hidden" id="id_customer" name="id_customer" value="{$customer_id|escape:'htmlall':'UTF-8'}">
                 <div class="form-group">
                     <div class="pull-right">
                         <button type="button" id="edipost-create" class="btn btn-primary pull" name="submitEdipost" disabled>

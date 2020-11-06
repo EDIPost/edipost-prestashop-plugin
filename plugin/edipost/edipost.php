@@ -177,7 +177,7 @@ class Edipost extends Module
                         'label' => $this->l('Username'),
                     ),
                     array(
-						'col' => 3,
+                        'col' => 3,
                         'type' => 'text',
                         'name' => 'EDIPOST_PASSWORD',
                         'label' => $this->l('Password'),
@@ -296,7 +296,7 @@ class Edipost extends Module
         try {
             $_apiData = AdminEdipostHelper::getApiConfig();
 
-            if($_apiData['EDIPOST_API_KEY']){
+            if ($_apiData['EDIPOST_API_KEY']) {
                 $_api = new EdipostService($_apiData['EDIPOST_API_KEY'], $_apiData['EDIPOST_API_ENDPOINT']);
                 $products = $_api->getAvailableProducts(
                     $shippingData['fromZipCode'],

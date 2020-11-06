@@ -28,10 +28,10 @@ require_once(_PS_MODULE_DIR_ . '/edipost/edipost.php');
 require_once(_PS_MODULE_DIR_ . '/edipost/helper.php');
 require_once(_PS_MODULE_DIR_ . '/edipost/lib/php-rest-client/EdipostService.php');
 
-use EdipostService\EdipostService;
 use EdipostService\Client\Builder\ConsigneeBuilder;
 use EdipostService\Client\Builder\ConsignmentBuilder;
 use EdipostService\Client\Item;
+use EdipostService\EdipostService;
 
 class AdminEdipostController extends ModuleAdminController
 {
@@ -111,7 +111,7 @@ class AdminEdipostController extends ModuleAdminController
         }
 
         $error = '';
-        $full_error= '';
+        $full_error = '';
         $return = [];
 
         $order_id = Tools::getValue('id_order', 0);
@@ -191,7 +191,7 @@ class AdminEdipostController extends ModuleAdminController
 
             // Add correct service if product is REK
             if (($product_id == 454 || $product_id == 456
-					|| $product_id == 747 || $product_id == 757) && $service_id > 0) {
+                    || $product_id == 747 || $product_id == 757) && $service_id > 0) {
                 $consignment->addService((int)$service_id);
             }
 
@@ -231,7 +231,7 @@ class AdminEdipostController extends ModuleAdminController
                 'full_error' => $full_error
             ];
         }
-        if(!$return){
+        if (!$return) {
             $return = [
                 'is_error' => $error,
                 'full_error' => $full_error,
