@@ -33,6 +33,22 @@ Four Prestashop instances will be runned (with default settings):
 
 https://validator.prestashop.com
 
+Compress the folder edipost so the content of the zip folder will look something like this:
+```
+edipost
+├── config.xml
+├── controllers
+│   ├── admin
+│   │   ├── AdminEdipostController.php
+│   │   └── index.php
+│   └── index.php
+├── edipost.php
+├── helper.php
+├── index.php
+...
+```
+The zip file should be named with version numbering as the following: `edipost-prestashop-1.0.zip`
+
 # Meta 
 
 Vasil M – Skype: vasil.ysbm

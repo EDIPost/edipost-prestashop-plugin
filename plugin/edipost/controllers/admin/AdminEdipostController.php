@@ -164,6 +164,7 @@ class AdminEdipostController extends ModuleAdminController
                 ->setContentReference($reference)
                 ->setInternalReference('');
 
+            /*
             foreach ($order->getProducts() as $product) {
                 $weight = 1;
                 $length = 0;
@@ -176,6 +177,21 @@ class AdminEdipostController extends ModuleAdminController
 
                 $consignment->addItem(new Item($weight, $length, $width, $height));
             }
+            */
+
+            $totalWeight = 0;
+
+            foreach ($order->getProducts() as $product) {
+                if (($weight = (float)$product['weight'])) {
+                    $totalWeight += $weight;
+                }
+            }
+
+            if( ! $totalWeight ) {
+                $totalWeight = 1;
+            }
+
+            $consignment->addItem(new Item($totalWeight, 0, 0, 0));
 
             if ($e_alert && in_array((int)$product_id, [8, 457, 16])) {
                 // Add SMS warning
